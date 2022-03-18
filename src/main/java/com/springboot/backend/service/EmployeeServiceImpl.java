@@ -20,17 +20,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		super();
 		this.employeeRepository = employeeRepository;
 	}
-
+	//create
 	@Override
 	public Employee saveEmployee(Employee employee) {
 		return employeeRepository.save(employee);
 	}
-
+	//get all
 	@Override
 	public List<Employee> getAllEmployees() {
 		return employeeRepository.findAll() ;
 	}
-
+	//get by id
 	@Override
 	public Employee getEmployeeById(long id) {
 //		Optional<Employee> employee = employeeRepository.findById(id);
@@ -41,6 +41,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 //		}
 		return employeeRepository.findById(id).orElseThrow(()->
 			new ResourceNotFoundException("employee","id",id));
+	}
+	//update
+	@Override
+	public Employee updateEmployee(Employee employee, long id) {
+		//we need to check whether employee with given id is exist in DB or not
+		Employee existingEmployee = employeeRepository.findById(id).orElseThrow(()->
+			new ResourceNotFoundException("Employee","Id",id));
+		existingEmployee.setFirstName(employee.getFirstName());
+		existingEmployee.setLastName(employee.getLastName());
+		existingEmployee.setEmail(employee.getEmail());
+		//save existing employee to DB
+		employeeRepository.save(existingEmployee);
+		return existingEmployee;
+		
 	}
 
 }
