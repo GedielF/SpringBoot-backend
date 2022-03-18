@@ -1,7 +1,10 @@
 package com.springboot.backend.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +24,16 @@ public class EmployeeController {
 		this.employeeService = employeeService;
 	}
 	
-	//bluid create employee REST API
+	//create employee REST API
 	@PostMapping()
-	public ResponseEntity<Employee>saveEmployee(@RequestBody Employee employee){
+	public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee){
 		return new ResponseEntity<Employee>(employeeService.saveEmployee(employee),HttpStatus.CREATED);
 	 
 }
+	//bluid get all employee REST API
+	@GetMapping
+	public List<Employee> getAllEmployee(){
+		return employeeService.getAllEmployees();
+	
+	}
 }
